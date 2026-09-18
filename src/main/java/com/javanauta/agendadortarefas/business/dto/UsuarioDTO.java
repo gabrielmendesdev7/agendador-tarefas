@@ -1,4 +1,4 @@
-package com.javanauta.agendadortarefas.infrasctructure.business.dto;
+package com.javanauta.agendadortarefas.business.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
