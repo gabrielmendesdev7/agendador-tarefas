@@ -1,4 +1,4 @@
-package com.javanauta.agendadortarefas.business.dto;
+package com.javanauta.agendadortarefas.business.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.javanauta.agendadortarefas.infrasctructure.enums.StatusNotificacaoEnum;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TarefasDTO {
+public class TarefasResponse {
 
     private String id;
     private String nomeTarefa;
