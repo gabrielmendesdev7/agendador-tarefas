@@ -31,13 +31,16 @@ public class TarefasService {
         entity.setStatusNotificacaoEnum(StatusNotificacaoEnum.PENDENTE);
         entity.setEmailUsuario(email);
         var savedEntity = tarefasRepository.save(entity);
-        return tarefaConverter.paraTarefaDTO(savedEntity);
+        return tarefaConverter.paraTarefaResponse(savedEntity);
     }
 
     public List<TarefasResponse> buscaTarefasAgendadasPorPeriodo(LocalDateTime dataInicial,
                                                             LocalDateTime dataFinal) {
-        var tarefas = tarefasRepository.findByDataEventoBetween(dataInicial, dataFinal);
-        return tarefaConverter.paraListaTarefasDTO(tarefas);
+        var tarefas = tarefasRepository
+                .findByDataEventoBetweenAndStatusNotificacaoEnum(dataInicial,
+                                                                 dataFinal,
+                                                                 StatusNotificacaoEnum.PENDENTE);
+        return tarefaConverter.paraListaTarefasResponse(tarefas);
     }
 
     public List<TarefasResponse> buscaTarefasPorEmail(String token) {
@@ -45,7 +48,7 @@ public class TarefasService {
 
         List<TarefasEntity> listaTarefas = tarefasRepository.findByEmailUsuario(email);
 
-        return tarefaConverter.paraListaTarefasDTO(listaTarefas);
+        return tarefaConverter.paraListaTarefasResponse(listaTarefas);
     }
 
     public void deletaTarefaPorId(String id) {
@@ -63,7 +66,7 @@ public class TarefasService {
 
             entity.setStatusNotificacaoEnum(status);
             tarefasRepository.save(entity);
-            return tarefaConverter.paraTarefaDTO(entity);
+            return tarefaConverter.paraTarefaResponse(entity);
         }catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Erro ao alterar status da tarefa " + e.getCause());
         }
@@ -76,7 +79,7 @@ public class TarefasService {
 
             tarefaUpdateConverter.updateTarefas(request, entity);
             tarefasRepository.save(entity);
-            return tarefaConverter.paraTarefaDTO(entity);
+            return tarefaConverter.paraTarefaResponse(entity);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Erro ao atualizar tarefa " + e.getCause());
         }
