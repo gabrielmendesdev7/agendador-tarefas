@@ -1,6 +1,6 @@
 package com.javanauta.agendadortarefas.client;
 
-import com.javanauta.agendadortarefas.business.dto.UsuarioDTO;
+import com.javanauta.agendadortarefas.business.dto.request.LoginRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UsuarioClient {
 
     @GetMapping("/usuario")
-    UsuarioDTO buscarUsuarioPorEmail(@RequestParam("email") String email,
-                                     @RequestHeader("Authorization") String token);
+    LoginRequest buscarUsuarioPorEmail(@RequestParam("email") String email,
+                                       @RequestHeader("Authorization") String token);
 
 }

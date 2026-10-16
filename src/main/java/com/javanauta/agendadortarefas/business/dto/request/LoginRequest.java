@@ -1,4 +1,4 @@
-package com.javanauta.agendadortarefas.business.dto;
+package com.javanauta.agendadortarefas.business.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,14 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UsuarioDTO {
+public class LoginRequest {
 
     private String email;
     private String senha;

@@ -1,10 +1,9 @@
 package com.javanauta.agendadortarefas.controller;
 
 import com.javanauta.agendadortarefas.business.TarefasService;
-import com.javanauta.agendadortarefas.business.dto.TarefasDTO;
-import com.javanauta.agendadortarefas.infrasctructure.entity.TarefasEntity;
+import com.javanauta.agendadortarefas.business.dto.request.TarefasRequest;
+import com.javanauta.agendadortarefas.business.dto.response.TarefasResponse;
 import com.javanauta.agendadortarefas.infrasctructure.enums.StatusNotificacaoEnum;
-import com.javanauta.agendadortarefas.infrasctructure.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -30,21 +29,21 @@ public class TarefasController {
     private final TarefasService tarefasService;
 
     @PostMapping
-    public ResponseEntity<TarefasDTO> gravarTarefas(@RequestBody TarefasDTO dto,
+    public ResponseEntity<TarefasResponse> gravarTarefas(@RequestBody TarefasRequest request,
 
-                                                    @RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(tarefasService.gravarTarefas(token, dto));
+                                                         @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(tarefasService.gravarTarefas(token, request));
     }
 
     @GetMapping("/eventos")
-    public ResponseEntity<List<TarefasDTO>> buscaListaDeTarefasPorPeriodo(
+    public ResponseEntity<List<TarefasResponse>> buscaListaDeTarefasPorPeriodo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal) {
         return ResponseEntity.ok(tarefasService.buscaTarefasAgendadasPorPeriodo(dataInicial, dataFinal));
     }
 
     @GetMapping
-    public ResponseEntity<List<TarefasDTO>> buscaTarefasPorEmail(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<TarefasResponse>> buscaTarefasPorEmail(@RequestHeader("Authorization") String token) {
         var tarefas = tarefasService.buscaTarefasPorEmail(token);
         return ResponseEntity.ok(tarefas);
     }
@@ -56,15 +55,15 @@ public class TarefasController {
     }
 
     @PatchMapping
-    public ResponseEntity<TarefasDTO> alteraStatusNotificacao(@RequestParam("status") StatusNotificacaoEnum statusNotificacaoEnum,
+    public ResponseEntity<TarefasResponse> alteraStatusNotificacao(@RequestParam("status") StatusNotificacaoEnum statusNotificacaoEnum,
                                                               @RequestParam("id") String id) {
-        TarefasDTO tarefasDTO = tarefasService.alteraStatus(statusNotificacaoEnum, id);
-        return ResponseEntity.ok(tarefasDTO);
+        TarefasResponse response = tarefasService.alteraStatus(statusNotificacaoEnum, id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping
-    public ResponseEntity<TarefasDTO> updateTarefas(@RequestBody TarefasDTO dto, @RequestParam("id") String id) {
-        TarefasDTO updatedTarefa = tarefasService.updateTarefas(dto, id);
+    public ResponseEntity<TarefasResponse> updateTarefas(@RequestBody TarefasRequest request, @RequestParam("id") String id) {
+        TarefasResponse updatedTarefa = tarefasService.updateTarefas(request, id);
         return ResponseEntity.ok(updatedTarefa);
     }
 

@@ -1,7 +1,7 @@
 package com.javanauta.agendadortarefas.infrasctructure.security;
 
 
-import com.javanauta.agendadortarefas.business.dto.UsuarioDTO;
+import com.javanauta.agendadortarefas.business.dto.request.LoginRequest;
 import com.javanauta.agendadortarefas.client.UsuarioClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -15,11 +15,11 @@ public class UserDetailsServiceImpl {
     private UsuarioClient client;
 
     public UserDetails carregaDadosUsuario(String email, String token) {
-        UsuarioDTO usuarioDTO = client.buscarUsuarioPorEmail(email, token);
+        LoginRequest request = client.buscarUsuarioPorEmail(email, token);
 
         return User
-                .withUsername(usuarioDTO.getEmail())
-                .password(usuarioDTO.getSenha())
+                .withUsername(request.getEmail())
+                .password(request.getSenha())
                 .build();
     }
 
